@@ -7,10 +7,16 @@ export default class Search extends Component {
 
   onChange = e => this.setState({ text: e.target.value });
 
+  onSubmit = e => {
+    e.preventDefault();
+
+    this.props.searchUsers(this.state.text);
+  };
+
   render() {
     return (
       <div>
-        <form className="form">
+        <form className="form" onSubmit={this.onSubmit}>
           <input
             type="text"
             placeholder="Please Enter a User"
