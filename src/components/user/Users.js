@@ -1,26 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from '../layout/Loading';
+import UserItem from './UserItem';
 
-const Users = props => {
-  if (props.loading) {
+const Users = ({ loading, users }) => {
+  if (loading) {
     return <Loading />;
   } else {
     return (
       <div style={userStyle}>
-        {props.users.map(user => (
-          <div key={user.id} className="card text-center">
-            <img
-              src={user.avatar_url}
-              alt="User"
-              className="round-img"
-              style={{ width: '60px' }}
-            />
-            <p>{user.login}</p>
-            <a href="www.github.com" className="btn btn-dark btn-sm my-1">
-              More
-            </a>
-          </div>
+        {users.map(user => (
+          <UserItem key={user.id} user={user} />
         ))}
       </div>
     );
