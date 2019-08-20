@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Alert from '../layout/Alert';
 
 export default class Search extends Component {
   state = {
-    text: ''
+    text: '',
+    alert: null
   };
 
   onChange = e => this.setState({ text: e.target.value });
@@ -11,8 +13,16 @@ export default class Search extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    this.props.searchUsers(this.state.text);
-    this.setState({ text: '' });
+    if (this.state.text === '') {
+      this.setState({
+        alert: { type: 'primary', msg: 'Username is required' }
+      });
+
+      setTimeout(() => this.setState({ alert: null }), 5000);
+    } else {
+      this.props.searchUsers(this.state.text);
+      this.setState({ text: '', alert: null });
+    }
   };
 
   onClick = e => {
@@ -24,6 +34,7 @@ export default class Search extends Component {
   render() {
     return (
       <div>
+        {this.state.alert !== null && <Alert alert={this.state.alert} />}
         <form className="form" onSubmit={this.onSubmit}>
           <input
             type="text"
