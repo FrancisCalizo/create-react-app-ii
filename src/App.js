@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/layout/Navbar';
 import Search from './components/user/Search';
 import Users from './components/user/Users';
+import About from './components/pages/About';
+
 
 export default class App extends Component {
   state = {
@@ -31,8 +34,16 @@ export default class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />
-          <Users users={this.state.users} loading={this.state.loading} />
+          <Switch>
+            <Route exact path ='/' render= {props => (
+              <Fragment>
+                <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />
+                <Users users={this.state.users} loading={this.state.loading} />
+              </Fragment>
+            )} />
+            <Route exact path='/about' component={About}></Route>
+          </Switch>
+
         </div>
       </div>
     );
