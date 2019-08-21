@@ -10,9 +10,25 @@ import UserProfile from './components/user/UserProfile';
 export default class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false
   };
 
+  // Get Single GitHub User
+  getUser = async username => {
+    this.setState({ loading: true });
+
+    const response = await fetch(
+      `https://api.github.com/users/${username}?client_id${
+        process.env.REACT_APP_GITHUB_CLIENT_ID
+      }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    const res = await response.json();
+
+    this.setState({ user: res, loading: false });
+  };
+
+  // Search GitHub Users
   searchUsers = async inputText => {
     this.setState({ loading: true });
 
@@ -54,8 +70,15 @@ export default class App extends Component {
             <Route exact path="/about" component={About} />
             <Route
               exact
-              path="/users/:username"
-              render={props => <UserProfile />}
+              path="/users/:userlogin"
+              render={props => (
+                <UserProfile
+                  {...props}
+                  user={this.state.user}
+                  getUser={this.getUser}
+                  loading={this.state.loading}
+                />
+              )}
             />
           </Switch>
         </div>
