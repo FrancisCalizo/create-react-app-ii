@@ -11,6 +11,7 @@ export default class App extends Component {
   state = {
     users: [],
     user: {},
+    repos: [],
     loading: false
   };
 
@@ -42,6 +43,20 @@ export default class App extends Component {
 
     this.setState({ users: data.items, loading: false });
   };
+
+    // Get User Repos
+    getRepos = async username => {
+      this.setState({ loading: true });
+
+      const response = await fetch(
+        `https://api.github.com/users/${username}/repos?sort=created&client_id${
+          process.env.REACT_APP_GITHUB_CLIENT_ID
+        }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      );
+      const res = await response.json();
+
+      this.setState({ repos: res, loading: false });
+    };
 
   clearUsers = () => this.setState({ users: [] });
 
@@ -77,6 +92,8 @@ export default class App extends Component {
                   user={this.state.user}
                   getUser={this.getUser}
                   loading={this.state.loading}
+                  getRepos={this.getRepos}
+                  repos={this.state.repos}
                 />
               )}
             />

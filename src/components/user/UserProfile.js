@@ -2,16 +2,20 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Loading from '../layout/Loading';
+import Repos from './Repos';
 
 export default class UserProfile extends Component {
   static propTypes = {
     getUser: PropTypes.func.isRequired,
+    getRepos: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    repos: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
     this.props.getUser(this.props.match.params.userlogin);
+    this.props.getRepos(this.props.match.params.userlogin)
   }
 
   render() {
@@ -31,7 +35,7 @@ export default class UserProfile extends Component {
       hireable
     } = this.props.user;
 
-    const { loading } = this.props;
+    const { loading, repos } = this.props;
 
     if (loading) return <Loading />;
 
@@ -96,6 +100,7 @@ export default class UserProfile extends Component {
           <div className="badge badge-light">Public Repos: {public_repos}</div>
           <div className="badge badge-dark">Public Gists: {public_gist}</div>
         </div>
+        <Repos repos={repos}/>
       </Fragment>
     );
   }
