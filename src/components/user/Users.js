@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import Loading from '../layout/Loading';
 import UserItem from './UserItem';
 
-const Users = ({ loading, users }) => {
+const Users = ({ loading, users, getUser }) => {
   if (loading) {
     return <Loading />;
   } else {
     return (
       <div style={userStyle}>
         {users.map(user => (
-          <UserItem key={user.id} user={user} />
+          <UserItem key={user.id} user={user} getUser={getUser}/>
         ))}
       </div>
     );
