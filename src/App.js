@@ -5,7 +5,7 @@ import Navbar from './components/layout/Navbar';
 import Search from './components/user/Search';
 import Users from './components/user/Users';
 import About from './components/pages/About';
-
+import UserProfile from './components/user/UserProfile';
 
 export default class App extends Component {
   state = {
@@ -35,15 +35,29 @@ export default class App extends Component {
         <Navbar />
         <div className="container">
           <Switch>
-            <Route exact path ='/' render= {props => (
-              <Fragment>
-                <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />
-                <Users users={this.state.users} loading={this.state.loading} />
-              </Fragment>
-            )} />
-            <Route exact path='/about' component={About}></Route>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Fragment>
+                  <Search
+                    searchUsers={this.searchUsers}
+                    clearUsers={this.clearUsers}
+                  />
+                  <Users
+                    users={this.state.users}
+                    loading={this.state.loading}
+                  />
+                </Fragment>
+              )}
+            />
+            <Route exact path="/about" component={About} />
+            <Route
+              exact
+              path="/users/:username"
+              render={props => <UserProfile />}
+            />
           </Switch>
-
         </div>
       </div>
     );
